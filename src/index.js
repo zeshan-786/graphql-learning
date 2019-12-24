@@ -7,17 +7,12 @@ var dbMySQL = require('./mySqlDatabase/dbOps')
 const typeDefs = `
                     type Query {
                       info: String!
-                      users: [User!]!
-                      user(id: ID!): User
-                      feed: [Link!]!
                       link(id: ID!): Link
                       allLinks: [Link!]!
                     }
 
                     type Mutation {
-                      createUser(name: String!): User! 
                       addLink(url: String!, description: String!): Link
-                      post(url: String!, description: String!): Link!
                       updateLink(id: ID!, url: String, description: String): Link
                       deleteLink(id: ID!): Link
                     }
@@ -79,6 +74,7 @@ const resolvers = {
 
 }
 
+// Running Apollo Server
 const server = new ApolloServer({ typeDefs, resolvers });
 
 server.listen().then(({ url }) => {
