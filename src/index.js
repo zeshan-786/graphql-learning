@@ -1,7 +1,7 @@
 const { GraphQLServer } = require('graphql-yoga')
 require('../config')
-var UserModel = require('../models/UserModel');
-var LinkModel = require('../models/LinkModel');
+var UserModel = require('./mongoDB/models/UserModel');
+var LinkModel = require('./mongoDB/models/LinkModel');
 
 var idCount = 0
 // 1
