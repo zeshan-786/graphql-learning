@@ -1,35 +1,36 @@
-const { GraphQLServer } = require('graphql-yoga')
+// GraphQL Server appollo-server
+const { ApolloServer } = require('apollo-server');
 // Database operations
 var dbMySQL = require('./mySqlDatabase/dbOps')
+
 // Schema definations
 const typeDefs = `
-type Query {
-  info: String!
-  users: [User!]!
-  user(id: ID!): User
-  feed: [Link!]!
-  link(id: ID!): Link
-  allLinks: [Link!]!
-}
+                    type Query {
+                      info: String!
+                      users: [User!]!
+                      user(id: ID!): User
+                      feed: [Link!]!
+                      link(id: ID!): Link
+                      allLinks: [Link!]!
+                    }
 
-type Mutation {
-  createUser(name: String!): User! 
-  addLink(url: String!, description: String!): Link
-  post(url: String!, description: String!): Link!
-  updateLink(id: ID!, url: String, description: String): Link
-  deleteLink(id: ID!): Link
-}
-type User {
-  id: ID!
-  name: String!
-}
+                    type Mutation {
+                      createUser(name: String!): User! 
+                      addLink(url: String!, description: String!): Link
+                      post(url: String!, description: String!): Link!
+                      updateLink(id: ID!, url: String, description: String): Link
+                      deleteLink(id: ID!): Link
+                    }
+                    type User {
+                      id: ID!
+                      name: String!
+                    }
 
-type Link {
-  id: ID!
-  description: String!
-  url: String!
-}
-`
+                    type Link {
+                      id: ID!
+                      description: String!
+                      url: String!
+                    }`
 // Resolver functions
 const resolvers = {
   Query: {
@@ -78,9 +79,8 @@ const resolvers = {
 
 }
 
-// GraphQL Server
-const server = new GraphQLServer({
-  typeDefs,
-  resolvers,
-})
-server.start(() => console.log(`Server is running on http://localhost:4000`))
+const server = new ApolloServer({ typeDefs, resolvers });
+
+server.listen().then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+});
