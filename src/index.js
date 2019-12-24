@@ -1,30 +1,24 @@
-const { GraphQLServer } = require('graphql-yoga')
+//Apollo Sever
+const { ApolloServer } = require('apollo-server');
+
+// Mongodb Configs run
 require('../config')
-var UserModel = require('./mongoDB/models/UserModel');
 var LinkModel = require('./mongoDB/models/LinkModel');
 
 var idCount = 0
-// 1
+
+// Schema  Defination
 const typeDefs = `
 type Query {
   info: String!
-  users: [User!]!
-  user(id: ID!): User
-  feed: [Link!]!
   link(id: ID!): Link
   allLinks: [Link!]!
 }
 
 type Mutation {
-  createUser(name: String!): User! 
   addLink(url: String!, description: String!): Link
-  post(url: String!, description: String!): Link!
   updateLink(id: ID!, url: String, description: String): Link
   deleteLink(id: ID!): Link
-}
-type User {
-  id: ID!
-  name: String!
 }
 
 type Link {
@@ -80,10 +74,9 @@ const resolvers = {
 
 }
 
+// Running Apollo Server
+const server = new ApolloServer({ typeDefs, resolvers });
 
-// 3
-const server = new GraphQLServer({
-  typeDefs,
-  resolvers,
-})
-server.start(() => console.log(`Server is running on http://localhost:4000`))
+server.listen().then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+});
