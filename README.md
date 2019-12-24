@@ -1,6 +1,6 @@
 # GraphQL Queries
 
-GraphQL with Apollo Server using NodeJS and MySql
+GraphQL with Apollo Server using NodeJS and MySql Serverless
 
 ## Installation
 
