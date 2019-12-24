@@ -26,7 +26,7 @@ run
 serverless offline
 ```
 
-By default it will run on [localhost:3000](localhost:3000) to install dependencis.
+By default it will run on [localhost:3000](http://localhost:3000)
 
 ## Usage
 
