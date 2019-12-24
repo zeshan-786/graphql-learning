@@ -1,10 +1,7 @@
 const { GraphQLServer } = require('graphql-yoga')
-require('../config')
-var UserModel = require('../models/UserModel');
-var LinkModel = require('../models/LinkModel');
-
-var idCount = 0
-// 1
+// Database operations
+var dbMySQL = require('./mySqlDatabase/dbOps')
+// Schema definations
 const typeDefs = `
 type Query {
   info: String!
@@ -33,16 +30,18 @@ type Link {
   url: String!
 }
 `
-// 2
+// Resolver functions
 const resolvers = {
   Query: {
     info: () => `This is the API of a Hackernews Clone`,
+     // Search single link
     link : async (parent, args) => {
-            var link = await LinkModel.findOne(args)
-            return link
+            var link = await dbMySQL.searchLink(args.id)
+            return link[0]
     },
+    // Show all Links
     allLinks : async () => {
-        var links = await LinkModel.find({})
+        var links = await dbMySQL.allLinks()
         return links
     }
   },
@@ -54,34 +53,32 @@ const resolvers = {
   Mutation: {
     // add a link
    addLink: async (parent, args) => {
-      const link = {
-      id: `link-${idCount++}`,
-      description: args.description,
-      url: args.url,
-    }
-    var newLink = await LinkModel.create(link)
-    return newLink
+    let res = await dbMySQL.insertLink(args)
+    let resSearch = await dbMySQL.searchLink(res.insertId)
+    return resSearch[0]
   },
 
     // Update a link
     updateLink : async (parent, args) => {
-      let link= await LinkModel.findOneAndUpdate({id : args.id}, args, {new: true})
+      let link= await dbMySQL.updateLink(args)
+      link.affectedRows ? link = args : null
       return link
       
     },
 
     // Delete a link
     deleteLink: async (parent, args) => {
-      let link = await LinkModel.findOneAndDelete({id : args.id})
-      return link
+      var resSearch = await dbMySQL.searchLink(args.id) 
+      let linkDelete = await dbMySQL.deleteLink(args.id)
+      linkDelete.affectedRows ? resSearch = resSearch[0] : resSearch = null
+      return resSearch
     }
 
  }
 
 }
 
-
-// 3
+// GraphQL Server
 const server = new GraphQLServer({
   typeDefs,
   resolvers,
