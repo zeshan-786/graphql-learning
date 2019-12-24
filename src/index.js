@@ -2,7 +2,7 @@
 const { ApolloServer } = require('apollo-server');
 
 // Mongodb Configs run
-require('../config')
+require('./mongoDB/config')
 var LinkModel = require('./mongoDB/models/LinkModel');
 
 var idCount = 0
