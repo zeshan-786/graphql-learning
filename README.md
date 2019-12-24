@@ -25,6 +25,7 @@ Database connection settings in dbOps.js, do connection with MySql Server Databa
 ```bash
 npm start
 ```
+By default it will run on [localhost:4000](localhost:4000)
 
 ## Usage
 
