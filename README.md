@@ -1,2 +1,2 @@
-# gpraphql-learning
-GraphQL Learning
+# GraphQL Learning
+GraphQL Learning tasks
