@@ -25,6 +25,7 @@ Database connection settings in config.js, do connection with Mongodb Server Dat
 ```bash
 npm start
 ```
+By default it will run on [localhost:3000](localhost:3000)
 
 ## Usage
 
